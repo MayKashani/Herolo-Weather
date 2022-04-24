@@ -1,21 +1,22 @@
 import { useSelector,useDispatch } from "react-redux"
+import { toggleUnit } from "../redux/actions"
 
 export const useUnit = () => {
-    const unit = useSelector(state=> state.unitReducer)
+    const unit = useSelector(state=> state.settingsReducer.unit)
     const dispatch = useDispatch()
     
-    const toggleUnit = () => {
-      dispatch({type:"TOGGLE_UNIT"})
+    const setUnit = () => {
+      dispatch(toggleUnit())
     }
 
-  const convert = (deg) =>{
-    deg = parseFloat(deg)
+  const convert = (degree) =>{
+    degree = parseFloat(degree)
     if(unit==='c')
-        return Math.round(deg/(5*9)+32)
-    return deg;
+        return Math.round((degree-32)*(5/9))
+    return degree;
   }
 
-  return [convert,toggleUnit,unit]
+  return {convert,setUnit,unit}
 
 }
 

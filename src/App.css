@@ -37,16 +37,22 @@
   }
 }
 
-
+/* 
 /* My CSS */
+
+* { 
+  box-sizing: border-box;
+}
 body {
-  background-image:  linear-gradient(to bottom right, #489aec, #019CAD,#0cb798);
-  height:100vh;
-  font-family: 'Courier New', Courier, monospace;
+  background-image: linear-gradient(to bottom right, #489aec, #019CAD,#0cb798);
+  margin: 0;
+  width:100vw;
+  background-attachment: fixed;
+  padding: 0px;
 }
 
 
-.iconText {
+/* .iconText {
     display: flex;
     flex-direction: row;
     padding: 5px;
@@ -60,9 +66,9 @@ body {
   margin:0 10px;
   font-size: 30px;
   font-weight: 600;
-}
+} */
 
-.favoriteIcon {
+/* .favoriteIcon {
     font-size: 50px!important;
     cursor: pointer;
     transition: all 0.3s ease!important;
@@ -71,7 +77,7 @@ body {
 
 .red{
   color: #f44336;
-}
+} */
 
 .hoverAnimation {
   position: relative;
@@ -103,7 +109,7 @@ body {
 }
 
 
-
+/* 
 .header {
   display: grid;
   background-color: rgba(0, 0, 0, 0.4);
@@ -115,12 +121,12 @@ body {
   box-shadow: 0 0 10px 0 rgb(0 0 0 / 50%);
   transition: all .3s;
   padding: 8px
-}
+} */
 
-.cardList {
+/* .cardList {
   background-color:transparent;
-}
-.cardList > .card {
+} */
+ /* .card {
   text-align: center;
   margin: 10px;
   box-shadow: rgb(47 48 48 / 50%) 0px -1px 20px 3px;
@@ -128,49 +134,81 @@ body {
   background-color: rgba(255, 255, 255, 0.2);
   padding: 5px;
   color: white;
-}
+} */
 
-.cardTitle {
+/* .cardTitle {
   text-transform:uppercase;
+} */
+
+
+/* AUTOCOMPLETE */
+form {
+  display: flex;
+  flex-direction: row;
+  margin: 30px auto;
 }
 
-@media only screen and (min-width: 600px)  {
-.cardList {
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr 1fr 1fr;
-
+.autocompleteSearchIcon { 
+  position: absolute;
+  padding: 15px;
+  font-size: 28px;
 }
+
+.autocompleteInput {
+  background-color: white;
+  border-radius: 30px;
+  width: 80%;
+  padding: 10px 50px;
+  font-size: 28px;
+}
+
+
+/* @media only screen and (min-width: 600px)  {
 
 .cardImage {
   width:100%
-}
+} */
 
-}
+/* .cardList {
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr 1fr 1fr;
+
+} */
+
+
+/* } */
 
 
 @media only screen and (max-width: 600px) {
-  .cardList {
-    display: grid;
-    grid-template-columns: 1fr
-  }
 
-  .card {
-    display:grid;
-    grid-template-columns: 33% 33% 33% ;
-    width:100%;
-  }
 
-  .cardImage {
+/* 
+  .cardTitle {
+    grid-column:2/3
+  } */
+
+
+  /* .cardContent {
+    grid-column: 3/4;
+  } */
+    /* .cardImage {
     height:100%;
     grid-column:1/2;
     grid-row:1/2
-  }
+  } */
 
-  .cardContent {
-    grid-column: 3/4;
-  }
 
-  .cardTitle {
-    grid-column:2/3
-  }
+    /* .cardList {
+    display: grid;
+    grid-template-columns: 1fr
+  } */
+
+
+  
+  /* .card {
+    display:grid;
+    grid-template-columns: 33% 33% 33% ;
+    width:100%;
+  } */
+
 }

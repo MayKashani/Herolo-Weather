@@ -1,57 +1,64 @@
 import React, { useEffect,useState } from 'react'
 import CardList from '../components/CardList'
 import MainHeader from '../components/MainHeader'
-import {useSelector} from 'react-redux'
-import Autocomplete from './Autocomplete';
+import { useSelector} from 'react-redux'
+import AutocompleteComp from './Autocomplete';
+import { SnackbarAlert } from './smallComponents/Alert';
 
+
+// 'AbaCXrNWwzsPAN1ZTAIAXluOHuWHhABl'
+const API_KEY ='UkzOVeJRGoKNfEpcnCVEWe3qLSd5atJR'
 Date.prototype.getDayOfWeek = function(){   
   return ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][ this.getDay() ];
 };
 
+
 export default function Main() {
-    //const [location,setLocation] = useState({name:'Tel-aviv', key:'215854'})
     const [weather,setWeather] = useState(null)
     const [forecasts,setForecasts] = useState(null)
     const location = useSelector(state=>state.locationReducer)
-    
+    const alert = useSelector(state=>state.alertsReducer)
+
     useEffect(() => {
-      fetch("http://dataservice.accuweather.com/currentconditions/v1/"+location.key+"?apikey=UkzOVeJRGoKNfEpcnCVEWe3qLSd5atJR")
+      fetch("http://dataservice.accuweather.com/currentconditions/v1/"+location.key+"?apikey="+API_KEY)
       .then(res=>res.json())
-      .then(res=> {
-        console.log(res)
-        setWeather({
-          ...location,
-          currentWeather: res[0].Temperature.Metric.Value + ' ' + res[0].Temperature.Metric.Unit
-        })
-      }
-       )
-      .then(fetch("http://dataservice.accuweather.com/forecasts/v1/daily/5day/"+location.key+"?apikey=UkzOVeJRGoKNfEpcnCVEWe3qLSd5atJR")
+      .then(res=> 
+        setWeather(res[0].Temperature.Imperial.Value + ' ' + res[0].Temperature.Imperial.Unit)
+      )
+      .then(fetch("http://dataservice.accuweather.com/forecasts/v1/daily/5day/"+location.key+"?apikey="+API_KEY)
       .then(res=>res.json())
-      .then(res=> {
-        console.log(res)
-        setForecasts(Object.values(res.DailyForecasts))
-      }))
+      .then(res=> setForecasts(Object.values(res.DailyForecasts))))
       .catch(err=>console.log)
     },[location])
     
 
-
     useEffect(() => {
+      // if('geolocation' in navigator) {
+      //   navigator.geolocation.getCurrentPosition((position)=> {
+      //     let currentLocation = position.coords.latitude+','+position.coords.longitude
+      //     fetch('http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey='+API_KEY+'&q='+currentLocation)
+      //     .then(res=>res.json())
+      //     .then(res=> dispatch(setLocation({name: res.EnglishName, key:res.Key})))
+      //     .catch(err=>console.log(err))
+      //   })
+      // }
         //fetch tlv weather...
         // fetch('http://dataservice.accuweather.com/locations/v1/cities/search?apikey=%20UkzOVeJRGoKNfEpcnCVEWe3qLSd5atJR&q=tel-aviv')
         // .then(res=> res.json())
         // .then(res=> setLocation(res))
         // .catch(err=> console.log(err))
-        let tempWeather = tlvWeatherConst[0].Temperature.Metric
-        setWeather({name:'Tel Aviv', currentWeather:tempWeather.Value +' '+tempWeather.Unit,id:location.key})
-        setForecasts(Object.values(tlvForecast.DailyForecasts))
+      //   let tempWeather = tlvWeatherConst[0].Temperature.Metric
+      //  dispatch(setLocation({name:'Tel Aviv',  currentWeather:tempWeather.Value +' '+tempWeather.Unit,key:location.key}))
+      //  setWeather({name:'Tel Aviv', currentWeather:tempWeather.Value +' '+tempWeather.Unit,id:location.key})
+      //  setForecasts(Object.values(tlvForecast.DailyForecasts))
     }, [])
 
   return (
 
-    <div >
-      <Autocomplete/>
-     { weather && <MainHeader data={weather}></MainHeader>}
+    <div style={{display:"flex", flexDirection:'column',alignItems:'center'}}>
+      {alert!==null && <SnackbarAlert/>}
+      <AutocompleteComp/>
+     { weather!==null && <MainHeader data={weather}></MainHeader>}
       <h1 style={{textAlign:"center"}}>Scattered clouds</h1>
        {forecasts && <CardList data={forecasts}></CardList>}
     </div>
@@ -62,6 +69,7 @@ export default function Main() {
 
 
 //later
+
 const tlv_key = '215854'
 const tlv_req = 'http://dataservice.accuweather.com/locations/v1/cities/search?apikey=%20UkzOVeJRGoKNfEpcnCVEWe3qLSd5atJR&q=tel-aviv'
 const tlvWeatherConst = [

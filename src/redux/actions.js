@@ -1,7 +1,13 @@
+
+
 export const ADD_FAVORITE= 'ADD_FAVORITE'
 export const REMOVE_FAVORITE='REMOVE_FAVORITE'
 export const SET_LOCATION = 'SET_LOCATION'
 export const TOGGLE_UNIT = 'TOGGLE_UNIT'
+export const TOGGLE_MODE = 'TOGGLE_MODE'
+export const SET_CURRENT_WEATHER = 'SET_CURRENT_WEATHER'
+export const SET_FORECASTS = 'SET_FORECASTS'
+export const SET_ALERT = 'SET_ALERT'
 
 export const addFavorite = favorite => dispatch => {
     dispatch({
@@ -24,9 +30,24 @@ export const setLocation = location => dispatch =>{
     })
 }
 
+export const setAlert = alert => dispatch => {
+    dispatch({
+        type:SET_ALERT,
+        payload: alert
+    })
+}
+
 export const toggleUnit = () => dispatch => {
     dispatch({
         type:'TOGGLE_UNIT',
         payload:{}
     })
+}
+
+export const toggleMode = () => dispatch => {
+    dispatch({
+        type:'TOGGLE_MODE',
+        payload:{}
+    })
+
 }

@@ -2,15 +2,19 @@ import { useState, useEffect} from "react"
 import { useDispatch,useSelector} from "react-redux";
 import store from '../redux/store';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { IconText } from "./staticComponents";
+import { Degree } from "./smallComponents/Degree";
+import styled from 'styled-components'
+import { addFavorite,removeFavorite } from "../redux/actions";
+import { SnackbarAlert } from "./smallComponents/Alert";
+import { setAlert } from "../redux/actions";
 
-export default function MainHeader() {
+export default function MainHeader(props) {
     const [isLiked,setIsLiked] = useState(false)
     const dispatch = useDispatch()
     const location = useSelector(state=>state.locationReducer)
-    const styleClass = `favoriteIcon ${isLiked ? 'red' : ''}`
-
+    const alert = useSelector(state=>state.alertsReducer)
+    const color = isLiked ? 'red' : ''
+ 
   useEffect(() => {
     if(store.getState().favoritesReducer.some(x => x.key===location.key))
       setIsLiked(true)
@@ -20,37 +24,32 @@ export default function MainHeader() {
     const toggleLike = () => {
       setIsLiked(!isLiked)
       if(!isLiked)
-        dispatch({
-          type:"ADD_FAVORITE",
-          payload: {
-            name:location.name,
-            key:location.key,
-            currentWeather:location.currentWeather
-          }
-        })
-      else 
-        dispatch({
-          type:"REMOVE_FAVORITE",
-          payload: {
-            key: store.getState().locationReducer.key
-          }
-        })
+      {
+        dispatch(addFavorite(location))
+        dispatch(setAlert({severity:'success',message:'Added to favorites'}))
+      }
+      else {
+        dispatch(removeFavorite(location.key))
+        dispatch(setAlert({severity:'error',message:'Deleted from favorites'}))
+      }
   }
   
     return (
-      <div style={{margin:'20px',display:"grid",gridTemplateColumns:"1fr auto"}}>
-      <CurrentTemp location={location}/>
-      <FavoriteIcon className={styleClass} onClick={()=>toggleLike()} ></FavoriteIcon>
+      <div style={{display:'flex', flexDirection:'row',width:'100%',justifyContent: 'space-between'}}>
+      <Degree {...props}/>
+      <FavoriteButton color={color} onClick={()=>toggleLike()} ></FavoriteButton>
+      {alert && <SnackbarAlert/>}
       </div>
     )
   }
   
 
-  const CurrentTemp = (props) => {
-    return (
-      <div style={{display:'flex',flexDirection:'row'}}>
-        <IconText text={props.location.name}><LocationOnIcon/></IconText>
-        <h4>{props.location.currentWeather}</h4>
-      </div>
-    )
-  }
+
+
+  const FavoriteButton = styled(FavoriteIcon)`
+  font-size: 50px!important;
+  cursor: pointer;
+  transition: all 0.3s ease!important;
+  filter: drop-shadow(0 0 5px rgba(0,0,0,.4));
+  color: ${props=>props.color? 'red' : 'black'}
+`

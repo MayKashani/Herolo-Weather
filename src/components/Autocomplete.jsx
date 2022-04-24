@@ -1,18 +1,18 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import debounce from 'lodash.debounce';
-import { Input, List,ListItem,ListItemButton,ListItemIcon } from '@mui/material';
-import { useEffect } from 'react';
-import store from '../redux/store';
+import { List,ListItem,ListItemButton,ListItemIcon, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search'
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAlert, setLocation } from '../redux/actions'
 
-export default function Autocomplete(props)
+export default function AutocompleteComp()
 {
     const [inputValue, setInputValue] = useState('');
     const [options,setOptions] = useState([])
     const favorites = useSelector(state=> state.favoritesReducer)
-    
+    const dispatch = useDispatch()
+
     const debouncedSave = useCallback(
         debounce((newValue) =>{
             fetch("http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=%20UkzOVeJRGoKNfEpcnCVEWe3qLSd5atJR&q="+newValue)
@@ -24,42 +24,44 @@ export default function Autocomplete(props)
     );
 
     const updateValue = (newValue) => {
+        console.log(newValue)
         setInputValue(newValue);
         debouncedSave(newValue);
     };
 
-    const setLocation = (e) => {
-        setInputValue(e.target.getAttribute("name"))
-        store.dispatch({
-            type:"SET_LOCATION",
-            payload: {
-              name:e.target.getAttribute("name"),
-              key:e.target.getAttribute("id"),
-            }
-          })
-          setOptions([])
+    const selectOption = (idx) => {
+        setInputValue(options[idx].LocalizedName,options[idx].Key)
+        dispatch(setLocation({name:options[idx].LocalizedName,key:options[idx].Key}))
+        setOptions([])
+    }
+
+    const validateInput=(input)=> {
+        if(!/^[a-zA-Z]+$/.test(input) && input!=='')
+            dispatch(setAlert({severity:"error", message:"Only english letters"}))
+        else updateValue(input)
     }
 
 
     return (
-        <div style={{width:'80vw',margin:'0 auto',display:'grid', gridTemplateRows:'1fr auto'}}>
-            <form style={{padding:'10px 30px',margin:'50px',display:'flex'}}>
-            <span style={{position:'absolute',padding:'15px',fontSize:'28px'}}><SearchIcon style={{fontSize:'28px'}}></SearchIcon></span>
+        <div>
+            <form>
+            <span className='autocompleteSearchIcon'><SearchIcon style={{fontSize:'28px'}}></SearchIcon></span>
                 <input 
-                style={{backgroundColor:'white',borderRadius:'30px',width:'80%',padding:'10px 50px',fontSize:'28px'}}
+                className='autocompleteInput'
                 value={inputValue}
                 placeholder={'Search location...'}
-                onChange={(input) => updateValue(input.target.value)}
+                onChange={(input) => validateInput(input.target.value)}
                 />
        
-        {
+      
+             </form>
+             {
           options.length>0 && 
-            <div style={{position:'absolute', background:'white',marginTop:'30px'}}>
-            <List >
-                {options.map(value=> 
-                <ListItem>
-                    <ListItemButton key={value.key} id={value.Key} name={value.LocalizedName}
-                        onClick={e=> setLocation(e)}>
+            <List style={{position:'absolute', background:'white',marginTop:'30px'}}>
+                {options.map((value,idx)=> 
+                <ListItem key={idx}>
+                    <ListItemButton key={value.Key} 
+                        onClick={()=> selectOption(idx)}>
                         {
                         favorites.some(x=>x.key===value.Key) ? 
                             <ListItemIcon>
@@ -71,9 +73,7 @@ export default function Autocomplete(props)
                 </ListItem>
                 )}
             </List>
-            </div>
         }
-             </form>
         </div>
     );
 }

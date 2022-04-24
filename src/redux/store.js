@@ -1,7 +1,8 @@
-import {createStore,combineReducers} from 'redux'
+import {createStore,combineReducers,applyMiddleware} from 'redux'
+import thunk from 'redux-thunk'
 
-import {locationReducer,favoritesReducer,unitReducer} from './reducers'
+import {locationReducer,favoritesReducer,settingsReducer,alertsReducer} from './reducers'
 
-const rootReducer = combineReducers({favoritesReducer,locationReducer,unitReducer})
-const store = createStore(rootReducer)
+const rootReducer = combineReducers({favoritesReducer,locationReducer,settingsReducer,alertsReducer})
+const store = createStore(rootReducer,applyMiddleware(thunk))
 export default store 

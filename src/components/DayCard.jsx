@@ -1,27 +1,22 @@
 import React from 'react'
-import { Card, CardContent, CardHeader, CardMedia } from '@mui/material'
+import { MyCard } from './smallComponents/StyledCard';
 import { useUnit } from '../hooks/useUnit';
 
 export default function DayCard(props) {
-    const [convertDeg] = useUnit();
-    let iconNum = props.day.Day.Icon>9 ? props.day.Day.Icon : "0" +  props.day.Day.Icon
-    const minTemp = convertDeg(props.day.Temperature.Minimum.Value)
-    const maxTemp = convertDeg(props.day.Temperature.Maximum.Value)
+    const {convert} = useUnit();
+    const icon = props?.day?.Day?.Icon;
+    let iconNum =icon && icon > 9 ? icon : "0" +  icon
+    let minTemp = convert(props.day.Temperature.Minimum.Value)
+    let maxTemp = convert(props.day.Temperature.Maximum.Value)
 
     return (
-          <Card className='card'>
-            <CardHeader className='cardTitle' title={new Date(props.day.Date).getDayOfWeek()}/>
-            <CardMedia 
-            className='cardImage'
-            sx={{width:'100%'}}
-            component="img"
-            image={"https://developer.accuweather.com/sites/default/files/"+iconNum+"-s.png"}
-            />
-            <CardContent className='cardContent'>
-            <h1>{minTemp +'° - '+maxTemp +'°'}</h1>
-             <h2> {props.day.Day.IconPhrase}</h2>
-            </CardContent>
-          </Card>
+      <MyCard 
+        title={new Date(props.day.Date).getDayOfWeek()} 
+        media={iconNum && "https://developer.accuweather.com/sites/default/files/"+iconNum+"-s.png"}
+        >
+              <div>{minTemp}° - {maxTemp}°</div>
+             <div>{props.day.Day.IconPhrase}</div>
+      </MyCard>
   )
 }
 
