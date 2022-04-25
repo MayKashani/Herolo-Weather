@@ -9,8 +9,7 @@ import { useEffect } from 'react';
 import { setLocation } from './redux/actions'
 import { useSelector } from 'react-redux'
 import { useDispatch} from 'react-redux';
-
-const API_KEY ='UkzOVeJRGoKNfEpcnCVEWe3qLSd5atJR'
+import { API_KEY } from './api/globals';
 
 export const lightTheme = {
     bg:  'linear-gradient(to bottom right, #489aec, #019CAD,#0cb798)',

@@ -6,7 +6,7 @@ import AutocompleteComp from './Autocomplete';
 import { SnackbarAlert } from './smallComponents/Alert';
 import styled from 'styled-components'
 import { setCurrentWeather } from '../redux/actions';
-
+import { API_KEY } from '../api/globals';
 
 
 Date.prototype.getDayOfWeek = function(){
@@ -55,8 +55,3 @@ const Title = styled.h1`
 color:${props=>props.theme.color};
 text-align: center;
 `
-
-const API_KEY ='UkzOVeJRGoKNfEpcnCVEWe3qLSd5atJR'
-//or
-//'AbaCXrNWwzsPAN1ZTAIAXluOHuWHhABl'
-//'UkzOVeJRGoKNfEpcnCVEWe3qLSd5atJR'

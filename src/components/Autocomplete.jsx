@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAlert, setLocation } from '../redux/actions'
-
+import { API_KEY } from '../api/globals';
 export default function AutocompleteComp()
 {
     const [inputValue, setInputValue] = useState('');
@@ -15,7 +15,7 @@ export default function AutocompleteComp()
 
     const debouncedSave = useCallback(
         debounce((newValue) =>{
-            fetch("https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=UkzOVeJRGoKNfEpcnCVEWe3qLSd5atJR&q="+newValue)
+            fetch("https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey="+API_KEY+"&q="+newValue)
             .then(res=> res.json())
             .then(res=>setOptions(res))
             .catch(err=>console.log(err))
