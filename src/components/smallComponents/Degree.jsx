@@ -8,7 +8,7 @@ import { IconText } from "./IconText";
 export const Degree = () => {
     const currentWeather = useSelector(state=>state.weatherReducer)
     const {convert} = useUnit()
-    console.log(currentWeather)
+
     return (
       <div>
         <IconText text={currentWeather.name}>

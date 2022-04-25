@@ -5,7 +5,7 @@ import { useDispatch, useSelector} from 'react-redux'
 import AutocompleteComp from './Autocomplete';
 import { SnackbarAlert } from './smallComponents/Alert';
 import styled from 'styled-components'
-import { setCurrentWeather } from '../redux/actions';
+import { setAlert, setCurrentWeather } from '../redux/actions';
 import { API_KEY } from '../api/globals';
 
 
@@ -27,13 +27,11 @@ export default function Main() {
       .then(res=>res.json())
       .then(res=>{
         dispatch(setCurrentWeather({...location,weather:res[0].Temperature.Imperial.Value + ' ' + res[0].Temperature.Imperial.Unit}))
-        //setcurrentWeather(res[0].Temperature.Imperial.Value + ' ' + res[0].Temperature.Imperial.Unit)
-          console.log(weather)
         }  )
       .then(fetch("https://dataservice.accuweather.com/forecasts/v1/daily/5day/"+location.key+"?apikey="+API_KEY)
       .then(res=>res.json())
       .then(res=> setForecasts(Object.values(res.DailyForecasts))))
-      .catch(err=>console.log)
+      .catch(err=>setAlert({severity:'error',message:err}))
     },[location])
 
 
