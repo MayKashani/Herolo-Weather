@@ -31,14 +31,14 @@ function App() {
       if('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition((position)=> {
           let currentLocation = position.coords.latitude+','+position.coords.longitude
-          fetch('http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey='+API_KEY+'&q='+currentLocation)
+          fetch('https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey='+API_KEY+'&q='+currentLocation)
           .then(res=>res.json())
           .then(res=> dispatch(setLocation({name: res.EnglishName, key:res.Key})))
           .catch(err=>console.log(err))
         })
       }
       else {
-        fetch("http://dataservice.accuweather.com/currentconditions/v1/215854?apikey="+API_KEY)
+        fetch("https://dataservice.accuweather.com/currentconditions/v1/215854?apikey="+API_KEY)
         .then(res=> dispatch(setLocation({name:'Tel Aviv',  currentWeather:res[0].Temperature.Value +' '+res[0].Temperature.Unit,key:'215854'})))
         .catch(err=> console.log(err))
       }

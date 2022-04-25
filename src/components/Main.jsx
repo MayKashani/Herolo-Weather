@@ -23,14 +23,14 @@ export default function Main() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-      fetch("http://dataservice.accuweather.com/currentconditions/v1/"+location.key+"?apikey="+API_KEY)
+      fetch("https://dataservice.accuweather.com/currentconditions/v1/"+location.key+"?apikey="+API_KEY)
       .then(res=>res.json())
       .then(res=>{
         dispatch(setCurrentWeather({...location,weather:res[0].Temperature.Imperial.Value + ' ' + res[0].Temperature.Imperial.Unit}))
         //setcurrentWeather(res[0].Temperature.Imperial.Value + ' ' + res[0].Temperature.Imperial.Unit)
           console.log(weather)
         }  )
-      .then(fetch("http://dataservice.accuweather.com/forecasts/v1/daily/5day/"+location.key+"?apikey="+API_KEY)
+      .then(fetch("https://dataservice.accuweather.com/forecasts/v1/daily/5day/"+location.key+"?apikey="+API_KEY)
       .then(res=>res.json())
       .then(res=> setForecasts(Object.values(res.DailyForecasts))))
       .catch(err=>console.log)

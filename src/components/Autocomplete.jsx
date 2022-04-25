@@ -15,7 +15,7 @@ export default function AutocompleteComp()
 
     const debouncedSave = useCallback(
         debounce((newValue) =>{
-            fetch("http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=UkzOVeJRGoKNfEpcnCVEWe3qLSd5atJR&q="+newValue)
+            fetch("https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=UkzOVeJRGoKNfEpcnCVEWe3qLSd5atJR&q="+newValue)
             .then(res=> res.json())
             .then(res=>setOptions(res))
             .catch(err=>console.log(err))
