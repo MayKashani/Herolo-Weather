@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback} from 'react';
 import debounce from 'lodash.debounce';
-import { List,ListItem,ListItemButton,ListItemIcon, TextField } from '@mui/material';
+import { List,ListItem,ListItemButton,ListItemIcon } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,16 +15,15 @@ export default function AutocompleteComp()
 
     const debouncedSave = useCallback(
         debounce((newValue) =>{
-            fetch("http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=%20UkzOVeJRGoKNfEpcnCVEWe3qLSd5atJR&q="+newValue)
+            fetch("http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=UkzOVeJRGoKNfEpcnCVEWe3qLSd5atJR&q="+newValue)
             .then(res=> res.json())
             .then(res=>setOptions(res))
             .catch(err=>console.log(err))
-        }, 3000),
+        }, 1000),
         []
     );
 
     const updateValue = (newValue) => {
-        console.log(newValue)
         setInputValue(newValue);
         debouncedSave(newValue);
     };
@@ -36,7 +35,7 @@ export default function AutocompleteComp()
     }
 
     const validateInput=(input)=> {
-        if(!/^[a-zA-Z]+$/.test(input) && input!=='')
+        if(!/^[a-zA-Z ]+$/.test(input) && input!=='')
             dispatch(setAlert({severity:"error", message:"Only english letters"}))
         else updateValue(input)
     }
@@ -44,20 +43,21 @@ export default function AutocompleteComp()
 
     return (
         <div>
-            <form>
-            <span className='autocompleteSearchIcon'><SearchIcon style={{fontSize:'28px'}}></SearchIcon></span>
+            <form style={{marginBottom:'0px'}}>
+                <span className='autocompleteSearchIcon'><SearchIcon style={{fontSize:'28px'}}>
+                    </SearchIcon>
+                </span>
                 <input 
                 className='autocompleteInput'
                 value={inputValue}
                 placeholder={'Search location...'}
                 onChange={(input) => validateInput(input.target.value)}
                 />
-       
-      
-             </form>
-             {
+            </form>
+
+        {
           options.length>0 && 
-            <List style={{position:'absolute', background:'white',marginTop:'30px'}}>
+            <List style={{position:'absolute', background:'white'}}>
                 {options.map((value,idx)=> 
                 <ListItem key={idx}>
                     <ListItemButton key={value.Key} 

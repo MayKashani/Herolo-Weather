@@ -6,7 +6,7 @@ export const NavItem = (props) => {
     return (
       <NavLink className='hoverAnimation' to={props.to} activeClassName='active' >
         <IconText text={props.text}>
-         {props.children}
+          {props.children}
         </IconText>  
       </NavLink>
     )

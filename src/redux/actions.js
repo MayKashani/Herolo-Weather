@@ -6,7 +6,6 @@ export const SET_LOCATION = 'SET_LOCATION'
 export const TOGGLE_UNIT = 'TOGGLE_UNIT'
 export const TOGGLE_MODE = 'TOGGLE_MODE'
 export const SET_CURRENT_WEATHER = 'SET_CURRENT_WEATHER'
-export const SET_FORECASTS = 'SET_FORECASTS'
 export const SET_ALERT = 'SET_ALERT'
 
 export const addFavorite = favorite => dispatch => {
@@ -36,6 +35,14 @@ export const setAlert = alert => dispatch => {
         payload: alert
     })
 }
+
+export const setCurrentWeather = weather => dispatch => {
+    dispatch({
+        type:SET_CURRENT_WEATHER,
+        payload: weather
+    })
+}
+
 
 export const toggleUnit = () => dispatch => {
     dispatch({

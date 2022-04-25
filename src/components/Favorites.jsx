@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLocation } from '../redux/actions'
 import {useNavigate} from 'react-router-dom'
-import { MyCard } from './smallComponents/StyledCard'
+import {MyCard } from './smallComponents/StyledCard'
 import { IconText } from './smallComponents/IconText'
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 
@@ -12,7 +12,6 @@ export default function Favorites() {
   const navigate = useNavigate()
 
   const handleClick = (x) => {
-    console.log(x)
     dispatch(setLocation(x))
     navigate('/')
   }
@@ -23,10 +22,10 @@ export default function Favorites() {
       favorites.length>0 ?
           favorites.map(x=> 
           <MyCard title={x.name} handleClick={handleClick} key={x.key} data={x}>
-              <h1>{x.currentWeather}</h1>
+              <h3>{x.weather}</h3>
           </MyCard>) : 
           <IconText text='There are no favorite locations'>
-            <SentimentVeryDissatisfiedIcon style={{fontSize:'50px'}}></SentimentVeryDissatisfiedIcon>
+            <SentimentVeryDissatisfiedIcon style={{fontSize:'50px'}}/>
           </IconText>
     }
   </div>

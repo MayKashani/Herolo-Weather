@@ -4,15 +4,20 @@ import styled from "styled-components";
 export const MyCard = (props) => {
     return (
       <StyledCard onClick = { () => props.handleClick? props.handleClick(props.data) : null}>
-      <StyledCardHeader title={props.title}/>
-      {props.media && <StyledCardMedia 
-      sx={{width:'100%'}}
-      component="img"
-      image={props.media}
-      />}
-      <StyledCardContent className='cardContent'>
-        {props.children}
-      </StyledCardContent>
+        
+          <StyledCardHeader title={props.title}/>
+
+          {props.media && 
+          <StyledCardMedia 
+          sx={{width:'100%'}}
+          component="img"
+          image={props.media}
+          />}
+
+          <StyledCardContent className='cardContent'>
+            {props.children}
+          </StyledCardContent>
+
     </StyledCard>
     )
   }

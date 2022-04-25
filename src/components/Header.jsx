@@ -13,7 +13,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { IconButton } from '@mui/material';
 
 
-export default function Header() {
+export default function Header(props) {
   const {setUnit,unit} = useUnit()
   const {mode} = useSelector(state=> state.settingsReducer)
   const dispatch = useDispatch()
@@ -23,17 +23,28 @@ export default function Header() {
       <IconText text='Herolo Weather'><CloudIcon/></IconText>
       
       <Nav>
-      <NavItem to='/' text='Home'><HomeIcon/></NavItem>
-        <NavItem to='/favorites' text='Favorites'><FavoriteIcon/></NavItem> 
-          <IconButton onClick={setUnit} >{unit.toUpperCase() + '°'}</IconButton>
-        <IconButton onClick={()=>dispatch(toggleMode())}>
+      <NavItem to='/' text='Home'>
+        <HomeIcon/>
+      </NavItem>
+
+      <NavItem to='/favorites' text='Favorites'>
+        <FavoriteIcon/>
+      </NavItem> 
+
+      <IconButton sx={{color:'white'}} onClick={setUnit}>
+        {unit.toUpperCase() + '°'}
+      </IconButton>
+
+      <IconButton  sx={{color:'white'}} onClick={()=>dispatch(toggleMode())}>
           {mode==='light'? <LightModeIcon/>
-          : <DarkModeIcon/> }</IconButton>
+          : <DarkModeIcon /> }
+      </IconButton>
+
       </Nav>
+      
     </StyledHeader>
   )
 }
-
 
 
 

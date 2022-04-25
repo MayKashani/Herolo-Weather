@@ -12,7 +12,7 @@ export default function DayCard(props) {
     return (
       <MyCard 
         title={new Date(props.day.Date).getDayOfWeek()} 
-        media={iconNum && "https://developer.accuweather.com/sites/default/files/"+iconNum+"-s.png"}
+        media={iconNum && `https://developer.accuweather.com/sites/default/files/${iconNum}-s.png`}
         >
               <div>{minTemp}° - {maxTemp}°</div>
              <div>{props.day.Day.IconPhrase}</div>

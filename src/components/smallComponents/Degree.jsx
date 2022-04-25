@@ -5,14 +5,18 @@ import { useSelector } from "react-redux";
 import { IconText } from "./IconText";
 
 //Main header temperature
-export const Degree = (props) => {
-    const location = useSelector(state=> state.locationReducer)
+export const Degree = () => {
+    const currentWeather = useSelector(state=>state.weatherReducer)
     const {convert} = useUnit()
-  
+    console.log(currentWeather)
     return (
       <div>
-        <IconText text={location.name}><LocationOnIcon/></IconText>
-        <IconText text={convert(props.data)}><ThermostatIcon></ThermostatIcon></IconText>
+        <IconText text={currentWeather.name}>
+          <LocationOnIcon/>
+        </IconText>
+        <IconText text={convert(currentWeather.weather)}>
+          <ThermostatIcon/>
+        </IconText>
       </div>
     )
   }

@@ -14,7 +14,8 @@ export default function MainHeader(props) {
     const location = useSelector(state=>state.locationReducer)
     const alert = useSelector(state=>state.alertsReducer)
     const color = isLiked ? 'red' : ''
- 
+    const weather = useSelector(state=> state.weatherReducer)
+
   useEffect(() => {
     if(store.getState().favoritesReducer.some(x => x.key===location.key))
       setIsLiked(true)
@@ -25,7 +26,7 @@ export default function MainHeader(props) {
       setIsLiked(!isLiked)
       if(!isLiked)
       {
-        dispatch(addFavorite(location))
+        dispatch(addFavorite(weather))
         dispatch(setAlert({severity:'success',message:'Added to favorites'}))
       }
       else {
@@ -36,8 +37,8 @@ export default function MainHeader(props) {
   
     return (
       <div style={{display:'flex', flexDirection:'row',width:'100%',justifyContent: 'space-between'}}>
-      <Degree {...props}/>
-      <FavoriteButton color={color} onClick={()=>toggleLike()} ></FavoriteButton>
+      <Degree/>
+      <FavoriteButton color={color} onClick={()=>toggleLike()}/>
       {alert && <SnackbarAlert/>}
       </div>
     )
@@ -51,5 +52,5 @@ export default function MainHeader(props) {
   cursor: pointer;
   transition: all 0.3s ease!important;
   filter: drop-shadow(0 0 5px rgba(0,0,0,.4));
-  color: ${props=>props.color? 'red' : 'black'}
+  color: ${props=>props.color? 'red' : props.theme.color}
 `

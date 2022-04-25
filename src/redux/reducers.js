@@ -1,13 +1,25 @@
 import { ADD_FAVORITE,REMOVE_FAVORITE,
      SET_LOCATION, 
      TOGGLE_UNIT,TOGGLE_MODE,
-    SET_ALERT
+    SET_ALERT,
+    SET_CURRENT_WEATHER
     } from "./actions";
 
 
 
+
+
+export function weatherReducer (state ={},action ) {
+    switch(action.type){
+        case SET_CURRENT_WEATHER:
+            return action.payload
+        default:
+            return state
+    }
+}
+
+
 export function favoritesReducer (state = [],action) {
-    console.log(action)
     switch(action.type){
         case ADD_FAVORITE:
             return [...state, action.payload]
@@ -18,7 +30,7 @@ export function favoritesReducer (state = [],action) {
     }
 }
 
-export function locationReducer (state = {name:'Tel-Aviv', key:'215854',currentWeather:''},action){
+export function locationReducer (state = {name:'Tel aviv', key:'215854'},action){
     switch(action.type){
         case SET_LOCATION:
             return action.payload

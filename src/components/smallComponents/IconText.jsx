@@ -3,8 +3,10 @@ import styled from "styled-components";
 export const IconText = (props) => {      
     return (
      <HeaderTextContainer>
-      {props.children}
-      <HeaderText style={props.style}>{props.text}</HeaderText>
+        {props.children}
+        <HeaderText style={props.style}>
+            {props.text}
+        </HeaderText>
      </HeaderTextContainer>
     )
    }
